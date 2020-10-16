@@ -1,0 +1,732 @@
+{
+    "worldgen": {
+        "root": true,
+        "has": true,
+        "nbt": {
+            "type": {
+                "type": "enum",
+                "enum": [
+                    { "id": "minecraft:overworld", "name": "主世界" },
+                    { "id": "minecraft:overworld_caves", "name": "洞穴" },
+                    { "id": "minecraft:the_nether", "name": "末地" },
+                    { "id": "minecraft:the_end", "name": "地狱" }
+                ],
+                "description": "维度类型的命名空间ID"
+            },
+            "generator": {
+                "type": "object",
+                "subtype": [
+                    "noise_generator",
+                    "flat_generator",
+                    "debug_generator"
+                ],
+                "description": "维度的生成设置"
+            }
+        }
+    },
+    "noise_generator": {
+        "has": true,
+        "nbt": {
+            "type": {
+                "type": "string",
+                "default": "minecraft:noise",
+                "disabled": true,
+                "description": "生成器ID"
+            },
+            "seed": {
+                "type": "string",
+                "description": "用于生成该维度的种子"
+            },
+            "settings": {
+                "type": "string",
+                "description": "地形生成器中使用的噪声设置。可以设为一个字符串以使用worldgen/noise_settings中的预设，或者可以设为一个包括自定义选项列表的复合标签"
+            },
+            "biome_source": {
+                "type": "object",
+                "subtype": "biome_source",
+                "description": "设置要生成的生物群系和其形状"
+            }
+        }
+    },
+    "biome_source": {
+        "nbt": {
+            "seed": {
+                "type": "string",
+                "description": "用来生成生物群系的种子"
+            },
+            "type": {
+                "type": "enum",
+                "enum": [
+                    "minecraft:vanilla_layered",
+                    "minecraft:fixed",
+                    "minecraft:checkerboard",
+                    "minecraft:multi_noise",
+                    "minecraft:the_end"
+                ],
+                "description": "生物群系生成类型"
+            },
+            "vanilla_layered": {
+                "type": "object",
+                "description": "主世界中使用的默认生成和巨型生物群系生成",
+                "subtype": "vanilla_layered"
+            },
+            "multi_noise": {
+                "type": "object",
+                "description": "用于下界三维生物群系生成",
+                "subtype": "multi_noise"
+            },
+            "the_end": {
+                "type": "string",
+                "description": "用于在末路之地中生成的生物群系，以生物群系minecraft:the_end为中心，周围环绕着其他生物群系"
+            },
+            "fixed": {
+                "type": "string",
+                "description": "用于在末路之地中生成的生物群系，以生物群系minecraft:the_end为中心，周围环绕着其他生物群系"
+            },
+            "checkerboard": {
+                "type": "object",
+                "description": "一种生物群系生成方式，其中每个生物群系单元呈正方形（或接近正方形），并沿对角线重复排列",
+                "subtype": "checkerboard"
+            }
+        }
+    },
+    "vanilla_layered": {
+        "has": true,
+        "nbt": {
+            "large_biomes": {
+                "type": "bool",
+                "description": "决定生物群系的规模。值为true时生物群系将生成为“巨型生物群系”世界类型"
+            },
+            "legacy_biome_init_layer": {
+                "type": "bool",
+                "description": "决定世界是否为default_1_1"
+            }
+        }
+    },
+    "altitude_noise": {
+        "has": true,
+        "nbt": {
+            "firstOctave": {
+                "type": "number",
+                "description": "主倍频的频率指数"
+            },
+            "amplitudes": {
+                "type": "list",
+                "description": "振幅指数"
+            }
+        }
+    },
+    "weirdness_noise": {
+        "has": true,
+        "nbt": {
+            "firstOctave": {
+                "type": "number",
+                "description": "主倍频的频率指数"
+            },
+            "amplitudes": {
+                "type": "list",
+                "description": "振幅指数"
+            }
+        }
+    },
+    "temperature_noise": {
+        "has": true,
+        "nbt": {
+            "firstOctave": {
+                "type": "number",
+                "description": "主倍频的频率指数"
+            },
+            "amplitudes": {
+                "type": "list",
+                "description": "振幅指数"
+            }
+        }
+    },
+    "humidity_noise": {
+        "has": true,
+        "nbt": {
+            "firstOctave": {
+                "type": "number",
+                "description": "主倍频的频率指数"
+            },
+            "amplitudes": {
+                "type": "list",
+                "description": "振幅指数"
+            }
+        }
+    },
+    "multi_noise": {
+        "nbt": {
+            "preset": {
+                "type": "string",
+                "default": "minecraft:nether",
+                "description": "要使用的一组生物群系预设，与 biomes互斥‌‌"
+            },
+            "biomes": {
+                "type": "list",
+                "description": "生物群系列表，以及它们的生成概率",
+                "subtype": "biomes"
+            },
+            "altitude_noise": {
+                "type": "object",
+                "subtype": "altitude_noise"
+            },
+            "weirdness_noise": {
+                "type": "object",
+                "subtype": "weirdness_noise"
+            },
+            "temperature_noise": {
+                "type": "object",
+                "subtype": "temperature_noise"
+            },
+            "humidity_noise": {
+                "type": "object",
+                "subtype": "humidity_noise"
+            }
+        }
+    },
+    "checkerboard": {
+        "nbt": {
+            "biomes": {
+                "type": "list",
+                "subtype": "string",
+                "description": "沿着对角线重复的生物群系列表"
+            },
+            "scale": {
+                "type": "number",
+                "description": "确定指数规模上正方形单元的大小"
+            }
+        }
+    },
+    "biomes": {
+        "nbt": {
+            "biome": {
+                "type": "string",
+                "description": "生物群系‌‌"
+            },
+            "parameters": {
+                "type": "object",
+                "subtype": "parameters"
+            }
+        }
+    },
+    "parameters": {
+        "nbt": {
+            "altitude": {
+                "type": "number",
+                "description": "用于使类似生物群系彼此接近。范围：(-2.0到2.0)"
+            },
+            "weirdness": {
+                "type": "number",
+                "description": "定义生物群系与其他生物群系邻近时的奇怪（weird）程度。范围：(-2.0到2.0)"
+            },
+            "offset": {
+                "type": "number",
+                "description": "范围：(0.0到1.0)。类似于其他参数，但是offset在任何地方都是0，因此将这个参数设为靠近0的值会使这个生物群系占更多优势，而其他的生物群系平等"
+            },
+            "temperature": {
+                "type": "number",
+                "description": "用于使类似地生物群系彼此接近。这与生物群系中列举的温度值不相同，不会影响雨雪或者树叶、草的颜色"
+            },
+            "humidity": {
+                "type": "number",
+                "description": "用于使类似生物群系彼此接近"
+            }
+        }
+    },
+    "flat_generator": {
+        "has": true,
+        "nbt": {
+            "type": {
+                "type": "string",
+                "default": "minecraft:flat",
+                "disabled": true,
+                "description": "生成器的ID"
+            },
+            "settings": {
+                "type": "object",
+                "subtype": "flat_setting",
+                "description": "超平坦设置"
+            }
+        }
+    },
+    "flat_setting": {
+        "nbt": {
+            "layers": {
+                "type": "list",
+                "description": "层设置",
+                "subtype": "layers"
+            },
+            "biome": {
+                "type": "string",
+                "description": "该维度使用的单一生物群系"
+            },
+            "lakes": {
+                "type": "bool",
+                "description": "是否生成湖。如果设为true，则水湖和熔岩湖常会生成，即使在生物群系中湖通常不生成。熔岩湖生成时被主世界不同种类的石头和矿物包围"
+            },
+            "features": {
+                "type": "bool",
+                "description": "是否生成生物群系特定的装饰性结构，比如数、草、花、仙人掌，等等"
+            },
+            "structures": {
+                "type": "object",
+                "subtype": "structure",
+                "description": "结构设置"
+            }
+        }
+    },
+    "layers": {
+        "nbt": {
+            "height": {
+                "type": "number",
+                "description": "该层竖直上的方块数量"
+            },
+            "block": {
+                "type": "string",
+                "description": "该层使用方块"
+            }
+        }
+    },
+    "stronghold": {
+        "nbt": {
+            "distance": {
+                "type": "number",
+                "description": "制要塞距离多远"
+            },
+            "count": {
+                "type": "number",
+                "description": "要生成多少要塞"
+            },
+            "spead": {
+                "type": "number",
+                "description": ""
+            }
+        }
+    },
+    "structure": {
+        "nbt": {
+            "stronghold": {
+                "type": "object",
+                "description": "设置要塞如何生成",
+                "subtype": "stronghold"
+            },
+            "structures": {
+                "type": "object",
+                "description": "此维度中要使用的结构列表",
+                "subtype": "structure_structure"
+            }
+        }
+    },
+    "structure_structure": {
+        "nbt": {
+            "jungle_pyramid": {
+                "type": "object",
+                "subtype": "jungle_pyramid_structure",
+                "description": "区块中两次这种结构的放置尝试的平均距离"
+            },
+            "village": {
+                "type": "object",
+                "subtype": "village_structure",
+                "description": "区块中两次这种结构的放置尝试的平均距离"
+            },
+            "endcity": {
+                "type": "object",
+                "subtype": "endcity_structure",
+                "description": "区块中两次这种结构的放置尝试的平均距离"
+            },
+            "ruined_portal": {
+                "type": "object",
+                "subtype": "ruined_portal_structure",
+                "description": "区块中两次这种结构的放置尝试的平均距离"
+            },
+            "igloo": {
+                "type": "object",
+                "subtype": "igloo_structure",
+                "description": "区块中两次这种结构的放置尝试的平均距离"
+            },
+            "stronghold": {
+                "type": "object",
+                "subtype": "stronghold_structure",
+                "description": "区块中两次这种结构的放置尝试的平均距离"
+            },
+            "bastion_remnant": {
+                "type": "object",
+                "subtype": "bastion_remnant_structure",
+                "description": "区块中两次这种结构的放置尝试的平均距离"
+            },
+            "desert_pyramid": {
+                "type": "object",
+                "subtype": "desert_pyramid_structure",
+                "description": "区块中两次这种结构的放置尝试的平均距离"
+            },
+            "nether_fossil": {
+                "type": "object",
+                "subtype": "nether_fossil_structure",
+                "description": "区块中两次这种结构的放置尝试的平均距离"
+            },
+            "buried_treasure": {
+                "type": "object",
+                "subtype": "buried_treasure_structure",
+                "description": "区块中两次这种结构的放置尝试的平均距离"
+            },
+            "mansion": {
+                "type": "object",
+                "subtype": "mansion_structure",
+                "description": "区块中两次这种结构的放置尝试的平均距离"
+            },
+            "shipwreck": {
+                "type": "object",
+                "subtype": "shipwreck_structure",
+                "description": "区块中两次这种结构的放置尝试的平均距离"
+            },
+            "monument": {
+                "type": "object",
+                "subtype": "monument_structure",
+                "description": "区块中两次这种结构的放置尝试的平均距离"
+            },
+            "swamp_hut": {
+                "type": "object",
+                "subtype": "swamp_hut_structure",
+                "description": "区块中两次这种结构的放置尝试的平均距离"
+            },
+            "fortress": {
+                "type": "object",
+                "subtype": "fortress_structure",
+                "description": "区块中两次这种结构的放置尝试的平均距离"
+            },
+            "pillager_outpost": {
+                "type": "object",
+                "subtype": "pillager_outpost_structure",
+                "description": "区块中两次这种结构的放置尝试的平均距离"
+            },
+            "ocean_ruin": {
+                "type": "object",
+                "subtype": "ocean_ruin_structure",
+                "description": "区块中两次这种结构的放置尝试的平均距离"
+            },
+            "mineshaft": {
+                "type": "object",
+                "subtype": "mineshaft_structure",
+                "description": "区块中两次这种结构的放置尝试的平均距离"
+            }
+        }
+    },
+    "jungle_pyramid_structure": {
+        "has": true,
+        "nbt": {
+            "spacing": {
+                "type": "number",
+                "description": "区块中两次这种结构的放置尝试的平均距离"
+            },
+            "separation": {
+                "type": "number",
+                "description": "区块中两次这种结构的放置尝试的最小距离，必须低于spacing"
+            },
+            "salt": {
+                "type": "number",
+                "description": "帮助进行随机化的数字"
+            }
+        }
+    },
+    "village_structure": {
+        "has": true,
+        "nbt": {
+            "spacing": {
+                "type": "number",
+                "description": "区块中两次这种结构的放置尝试的平均距离"
+            },
+            "separation": {
+                "type": "number",
+                "description": "区块中两次这种结构的放置尝试的最小距离，必须低于spacing"
+            },
+            "salt": {
+                "type": "number",
+                "description": "帮助进行随机化的数字"
+            }
+        }
+    },
+    "endcity_structure": {
+        "has": true,
+        "nbt": {
+            "spacing": {
+                "type": "number",
+                "description": "区块中两次这种结构的放置尝试的平均距离"
+            },
+            "separation": {
+                "type": "number",
+                "description": "区块中两次这种结构的放置尝试的最小距离，必须低于spacing"
+            },
+            "salt": {
+                "type": "number",
+                "description": "帮助进行随机化的数字"
+            }
+        }
+    },
+    "ruined_portal_structure": {
+        "has": true,
+        "nbt": {
+            "spacing": {
+                "type": "number",
+                "description": "区块中两次这种结构的放置尝试的平均距离"
+            },
+            "separation": {
+                "type": "number",
+                "description": "区块中两次这种结构的放置尝试的最小距离，必须低于spacing"
+            },
+            "salt": {
+                "type": "number",
+                "description": "帮助进行随机化的数字"
+            }
+        }
+    },
+    "igloo_structure": {
+        "has": true,
+        "nbt": {
+            "spacing": {
+                "type": "number",
+                "description": "区块中两次这种结构的放置尝试的平均距离"
+            },
+            "separation": {
+                "type": "number",
+                "description": "区块中两次这种结构的放置尝试的最小距离，必须低于spacing"
+            },
+            "salt": {
+                "type": "number",
+                "description": "帮助进行随机化的数字"
+            }
+        }
+    },
+    "stronghold_structure": {
+        "has": true,
+        "nbt": {
+            "spacing": {
+                "type": "number",
+                "description": "区块中两次这种结构的放置尝试的平均距离"
+            },
+            "separation": {
+                "type": "number",
+                "description": "区块中两次这种结构的放置尝试的最小距离，必须低于spacing"
+            },
+            "salt": {
+                "type": "number",
+                "description": "帮助进行随机化的数字"
+            }
+        }
+    },
+    "bastion_remnant_structure": {
+        "has": true,
+        "nbt": {
+            "spacing": {
+                "type": "number",
+                "description": "区块中两次这种结构的放置尝试的平均距离"
+            },
+            "separation": {
+                "type": "number",
+                "description": "区块中两次这种结构的放置尝试的最小距离，必须低于spacing"
+            },
+            "salt": {
+                "type": "number",
+                "description": "帮助进行随机化的数字"
+            }
+        }
+    },
+    "desert_pyramid_structure": {
+        "has": true,
+        "nbt": {
+            "spacing": {
+                "type": "number",
+                "description": "区块中两次这种结构的放置尝试的平均距离"
+            },
+            "separation": {
+                "type": "number",
+                "description": "区块中两次这种结构的放置尝试的最小距离，必须低于spacing"
+            },
+            "salt": {
+                "type": "number",
+                "description": "帮助进行随机化的数字"
+            }
+        }
+    },
+    "nether_fossil_structure": {
+        "has": true,
+        "nbt": {
+            "spacing": {
+                "type": "number",
+                "description": "区块中两次这种结构的放置尝试的平均距离"
+            },
+            "separation": {
+                "type": "number",
+                "description": "区块中两次这种结构的放置尝试的最小距离，必须低于spacing"
+            },
+            "salt": {
+                "type": "number",
+                "description": "帮助进行随机化的数字"
+            }
+        }
+    },
+    "buried_treasure_structure": {
+        "has": true,
+        "nbt": {
+            "spacing": {
+                "type": "number",
+                "description": "区块中两次这种结构的放置尝试的平均距离"
+            },
+            "separation": {
+                "type": "number",
+                "description": "区块中两次这种结构的放置尝试的最小距离，必须低于spacing"
+            },
+            "salt": {
+                "type": "number",
+                "description": "帮助进行随机化的数字"
+            }
+        }
+    },
+    "mansion_structure": {
+        "has": true,
+        "nbt": {
+            "spacing": {
+                "type": "number",
+                "description": "区块中两次这种结构的放置尝试的平均距离"
+            },
+            "separation": {
+                "type": "number",
+                "description": "区块中两次这种结构的放置尝试的最小距离，必须低于spacing"
+            },
+            "salt": {
+                "type": "number",
+                "description": "帮助进行随机化的数字"
+            }
+        }
+    },
+    "shipwreck_structure": {
+        "has": true,
+        "nbt": {
+            "spacing": {
+                "type": "number",
+                "description": "区块中两次这种结构的放置尝试的平均距离"
+            },
+            "separation": {
+                "type": "number",
+                "description": "区块中两次这种结构的放置尝试的最小距离，必须低于spacing"
+            },
+            "salt": {
+                "type": "number",
+                "description": "帮助进行随机化的数字"
+            }
+        }
+    },
+    "monument_structure": {
+        "has": true,
+        "nbt": {
+            "spacing": {
+                "type": "number",
+                "description": "区块中两次这种结构的放置尝试的平均距离"
+            },
+            "separation": {
+                "type": "number",
+                "description": "区块中两次这种结构的放置尝试的最小距离，必须低于spacing"
+            },
+            "salt": {
+                "type": "number",
+                "description": "帮助进行随机化的数字"
+            }
+        }
+    },
+    "swamp_hut_structure": {
+        "has": true,
+        "nbt": {
+            "spacing": {
+                "type": "number",
+                "description": "区块中两次这种结构的放置尝试的平均距离"
+            },
+            "separation": {
+                "type": "number",
+                "description": "区块中两次这种结构的放置尝试的最小距离，必须低于spacing"
+            },
+            "salt": {
+                "type": "number",
+                "description": "帮助进行随机化的数字"
+            }
+        }
+    },
+    "fortress_structure": {
+        "has": true,
+        "nbt": {
+            "spacing": {
+                "type": "number",
+                "description": "区块中两次这种结构的放置尝试的平均距离"
+            },
+            "separation": {
+                "type": "number",
+                "description": "区块中两次这种结构的放置尝试的最小距离，必须低于spacing"
+            },
+            "salt": {
+                "type": "number",
+                "description": "帮助进行随机化的数字"
+            }
+        }
+    },
+    "pillager_outpost_structure": {
+        "has": true,
+        "nbt": {
+            "spacing": {
+                "type": "number",
+                "description": "区块中两次这种结构的放置尝试的平均距离"
+            },
+            "separation": {
+                "type": "number",
+                "description": "区块中两次这种结构的放置尝试的最小距离，必须低于spacing"
+            },
+            "salt": {
+                "type": "number",
+                "description": "帮助进行随机化的数字"
+            }
+        }
+    },
+    "ocean_ruin_structure": {
+        "has": true,
+        "nbt": {
+            "spacing": {
+                "type": "number",
+                "description": "区块中两次这种结构的放置尝试的平均距离"
+            },
+            "separation": {
+                "type": "number",
+                "description": "区块中两次这种结构的放置尝试的最小距离，必须低于spacing"
+            },
+            "salt": {
+                "type": "number",
+                "description": "帮助进行随机化的数字"
+            }
+        }
+    },
+    "mineshaft_structure": {
+        "has": true,
+        "nbt": {
+            "spacing": {
+                "type": "number",
+                "description": "区块中两次这种结构的放置尝试的平均距离"
+            },
+            "separation": {
+                "type": "number",
+                "description": "区块中两次这种结构的放置尝试的最小距离，必须低于spacing"
+            },
+            "salt": {
+                "type": "number",
+                "description": "帮助进行随机化的数字"
+            }
+        }
+    },
+    "debug_generator": {
+        "has": true,
+        "nbt": {
+            "type": {
+                "type": "string",
+                "default": "minecraft:debug",
+                "description": "生成器的ID",
+                "disabled": true
+            }
+        }
+    }
+}
