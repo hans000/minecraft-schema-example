@@ -1,0 +1,19 @@
+{
+  "name": "minecraft-schema-example",
+  "version": "1.0.0",
+  "description": "一些可用于描述minecraft数据包json文件并用于定义生成器结构的json文件（如：predicate，loottable）",
+  "main": "index.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hans000/minecraft-schema-example.git"
+  },
+  "keywords": ["datapack", "schema", "minecraft"],
+  "author": "hans000",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hans000/minecraft-schema-example/issues"
+  },
+  "homepage": "https://github.com/hans000/minecraft-schema-example#readme"
+}
