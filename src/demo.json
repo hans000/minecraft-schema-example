@@ -1,0 +1,59 @@
+{
+    "worldgen": {
+        "root": true,
+        "has": true,
+        "nbt": {
+            "a": {
+                "type": "string"
+            },
+            "b": {
+                "type": "number"
+            },
+            "c": {
+                "type": "bool"
+            },
+            "d": {
+                "type": "enum",
+                "enum": [
+                    "A",
+                    "B",
+                    "C"
+                ]
+            },
+            "f": {
+                "type": "list",
+                "subtype": "string"
+            }
+        }
+    },
+
+    "loottable": {
+        "root": true,
+        "nbt": {
+            "a": {
+                "type": "bool"
+            }
+        }
+    },
+    "predicate": {
+        "root": true,
+        "nbt": {
+            "a": {
+                "type": "enum",
+                "enum": [
+                    "A",
+                    "B",
+                    "C"
+                ]
+            }
+        }
+    },
+    "advacement": {
+        "root": true,
+        "nbt": {
+            "a": {
+                "type": "number"
+            }
+        }
+    }
+}
